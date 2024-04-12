@@ -1,6 +1,6 @@
 terraform {
   required_version = ">= 1.0"
-  backend "local" {} # Can change from "local" to "gcs" (for google) or "s3" (for aws), if you would like to preserve your tf-state online
+  backend "local" {}
   required_providers {
     google = {
       source = "hashicorp/google"
@@ -16,14 +16,12 @@ provider "google" {
   credentials = file(var.credentials)
   project     = local.envs["PROJECT_ID"]
   region      = var.region
-  // credentials = file(var.credentials)  # Use this if you do not want to set env-var GOOGLE_APPLICATION_CREDENTIALS
 }
 
 resource "google_compute_instance" "uk_power_analytics_vm" {
   name         = var.vm_instance
   machine_type = var.machine_type
   zone         = var.region
-  # tags         = google_compute_firewall.allow_ssh.target_tags
 
   boot_disk {
     initialize_params {
@@ -39,15 +37,12 @@ resource "google_compute_instance" "uk_power_analytics_vm" {
     }
   }
 
-  # metadata_startup_script = "echo hi > ~/test.txt"
+  metadata_startup_script = "${file("./start_up_script.sh")}"
 
 }
 
-
-# Data Lake Bucket
-# Ref: https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/storage_bucket
 resource "google_storage_bucket" "terraform-test-bucket" {
-  name          = "${local.envs["PROJECT_ID"]}-${var.gcs_bucket_class}" # Concatenating DL bucket & Project name for unique naming
+  name          = "${local.envs["PROJECT_ID"]}-${var.gcs_bucket_class}"
   location      = var.location
   force_destroy = true
 

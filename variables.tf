@@ -30,7 +30,7 @@ variable "gcs_storage_class" {
 
 variable "vm_instance" {
   description = "Name of VM Instance"
-  default     = "test-vm-instance"
+  default     = "test-vm-instance-1"
 }
 
 variable "machine_type" {
