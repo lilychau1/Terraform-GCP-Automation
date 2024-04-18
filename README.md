@@ -61,7 +61,9 @@ Review the `variables.tf` file and modify the default values if necessary.
 Ensure proper permissions and configurations are set up in your Google Cloud project for successful resource provisioning.
 
 ## Author
-Lily Chau (https://www.linkedin.com/in/chauyeeki/)
+Lily Chau
+
+www.linkedin.com/in/lilychau1
 
 Thank you for your time. Feel free to reach out for any questions or feedback!
 
